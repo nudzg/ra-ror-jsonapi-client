@@ -48,7 +48,7 @@ var fetchJson = function fetchJson(url) {
             // not json, no big deal
         }
         if (status < 200 || status >= 300) {
-            return Promise.reject(new _HttpError2.default(json && json.message || statusText, status));
+            return Promise.reject(new _HttpError2.default(json, statusText, status));
         }
         return { status: status, headers: headers, body: body, json: json };
     });

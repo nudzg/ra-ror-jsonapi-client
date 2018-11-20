@@ -1,4 +1,4 @@
-"use strict";
+'use strict';
 
 Object.defineProperty(exports, "__esModule", {
   value: true
@@ -13,12 +13,22 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 var HttpError = function (_Error) {
   _inherits(HttpError, _Error);
 
-  function HttpError(message, status) {
+  function HttpError(jsonError, statusText, status) {
     _classCallCheck(this, HttpError);
 
-    var _this = _possibleConstructorReturn(this, (HttpError.__proto__ || Object.getPrototypeOf(HttpError)).call(this, message));
+    var summary = statusText;
 
-    _this.message = message;
+    if (jsonError && jsonError.errors !== 'undefined') {
+      summary = jsonError.errors.filter(function (e) {
+        return e.detail;
+      }).map(function (e) {
+        return e.detail;
+      }).join(', ');
+    }
+
+    var _this = _possibleConstructorReturn(this, (HttpError.__proto__ || Object.getPrototypeOf(HttpError)).call(this, summary));
+
+    _this.message = summary;
     _this.status = status;
     _this.name = _this.constructor.name;
     if (typeof Error.captureStackTrace === "function") {
